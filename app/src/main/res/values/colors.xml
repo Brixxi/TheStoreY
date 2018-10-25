@@ -5,4 +5,10 @@
     <color name="colorPrimaryDark">#201f1f</color>
     <color name="colorPrimaryLighter">#363535</color>
     <color name="colorAccent">#f16a03</color>
+
+    <!-- Light color-->
+    <color name="colorPrimaryLight">#e7e7e7</color>
+    <color name="colorPrimaryDarkLight">#bfbfbf</color>
+    <color name="colorPrimaryLighterLight">#c6c6c6</color>
+    <color name="colorAccentLight">#f16a03</color>
 </resources>

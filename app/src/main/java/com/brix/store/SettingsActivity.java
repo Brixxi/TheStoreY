@@ -11,7 +11,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
@@ -19,19 +18,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentTheme();
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -55,6 +45,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         intent.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
+
+    /**
+     * Checks which theme is preferred and sets it
+     * gets param from MainPrefFragment
+     * run before setContentView
+     */
+    public void currentTheme() {
+        //Preferences for Theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean value = (sharedPreferences.getBoolean("themekey", true));
+
+        if (value) {
+            //Toast.makeText(this, "light", Toast.LENGTH_SHORT).show();
+            setTheme(R.style.AppTheme); // set theme
+
+        } else {
+            //Toast.makeText(this, "dark", Toast.LENGTH_SHORT).show();
+            setTheme(R.style.AppTheme_Dark); // set theme
+        }
+    }
+
+
 
 
     // PreferenceFragment
@@ -85,6 +97,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         /**
          * Preference Theme
          * sets the theme and shares the switchPreference for ex. the MainActivity
+         * -> user needs to restart the app for the applied changes to take effect
          */
         private void changeTheme() {
             // Get the application context
@@ -101,20 +114,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if(theme.isChecked()){
                         //Test Toast
-                        Toast.makeText(mActivity,"Unchecked",Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(mActivity,
+                                "Please restart the app for the applied changes to take effect.",
+                                Toast.LENGTH_SHORT).show();
                         // setDefault for other Activities
                         setDefaultsBoolean("themekey",theme.isChecked(), mContext);
-
                         // Checked the switch programmatically
                         theme.setChecked(false);
                     }else {
                         //Test Toast
-                        Toast.makeText(mActivity,"Checked",Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(mActivity,
+                                "Please restart the app for the applied changes to take effect.",
+                                Toast.LENGTH_SHORT).show();
                         // setDefault for other Activities
                         setDefaultsBoolean("themekey",theme.isChecked(), mContext);
-
                         // Unchecked the switch programmatically
                         theme.setChecked(true);
                     }
@@ -137,16 +150,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(key, value);
             editor.apply();
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
         }
 
     }

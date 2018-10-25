@@ -36,4 +36,5 @@
     <string name="get_notified">Notification</string>
     <string name="theme_summary">Switch between Dark and Light mode.</string>
     <string name="switch_theme">Switch Theme</string>
+    <string name="news_image">HS-Offenburg Image</string>
 </resources>

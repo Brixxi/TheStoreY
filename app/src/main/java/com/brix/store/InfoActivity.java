@@ -1,5 +1,7 @@
 package com.brix.store;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.animation.DynamicAnimation;
 import android.support.animation.SpringAnimation;
 import android.support.animation.SpringForce;
@@ -13,6 +15,7 @@ public class InfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
     }
@@ -41,5 +44,23 @@ public class InfoActivity extends AppCompatActivity {
         springAnimation2.start();
     }
 
+    /**
+     * Checks which theme is preferred and sets it
+     * gets param from SettingsActivity.class
+     * run before setContentView
+     */
+    public void currentTheme() {
+        //Preferences for Theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean value = (sharedPreferences.getBoolean("themekey", true));
 
+        if (value) {
+            //Toast.makeText(this, "light", Toast.LENGTH_SHORT).show();
+            setTheme(R.style.AppTheme_AppBarOverlay); // set theme
+
+        } else {
+            //Toast.makeText(this, "dark", Toast.LENGTH_SHORT).show();
+            setTheme(R.style.AppTheme_Dark); // set theme
+        }
+    }
 }
